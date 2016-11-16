@@ -8,7 +8,7 @@ zScore <- function(x, mu=0, sigma=1) {
   #
   # Returns:
   #   The z-score of x.
-  return((x - mu) / sigma)
+  (x - mu) / sigma
 }
 
 quant <- function(zScore, mu=0, sigma=1) {
@@ -28,6 +28,6 @@ quant <- function(zScore, mu=0, sigma=1) {
   #
   # Returns:
   #   The propability for values being more extreme than the value
-  #   with the given z-score.
-  return(pnorm(zScore, mu, sigma, zScore < 0))
+  #   with the given z-score in percent.
+  pnorm(zScore, mu, sigma, zScore < 0) * 100
 }
