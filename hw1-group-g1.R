@@ -1,3 +1,5 @@
+# Homework 1 by Andrea Suckro and Sebastian Höffner
+
 zScore <- function(x, mu=0, sigma=1) {
   # Compute the z-score of x.
   #
