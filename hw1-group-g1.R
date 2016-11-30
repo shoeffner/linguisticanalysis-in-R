@@ -15,7 +15,7 @@ zScore <- function(x, mu=0, sigma=1) {
 
 quant <- function(zScore, mu=0, sigma=1) {
   # Computes the probability for a value to be more extreme than values with
-  # the given given z-score.
+  # the given z-score.
   #
   # "Extreme" means that if the z-score is closer to the left tail,
   # i.e. zScore < 0, the probability of the values left of the z-score is
