@@ -1,5 +1,47 @@
 # Homework 2 by Sebastian Höffner and Andrea Suckro
+
+in_ci <- function(val, mu, ci) {
+  # Determines if a value lies within a given confidence interval ci around mu.
+  # It evaluates whether val is bigger than mu - ci and smaller than mu + ci.
+  #
+  # Args:
+  #   val: The value to check.
+  #   mu:  The mean of the distribution.
+  #   ci:  The radius around the mean.
+  #
+  # Returns:
+  #   True if val lies within the radius ci around mu.
+
+  val > mu - ci & val < mu + ci
+}
+
 get.statistics <- function(population) {
+  # Simulates the process of repeated sampling from the given population
+  # to answer the following questions:
+  #
+  # 1. What is the probability that the population mean lies within the
+  #    interval of two standard errors around the sample mean?
+  #    Known: real mean. Unknown: real standard deviation
+  #
+  # 2. What is the probability that the population mean lies within the
+  #    interval of two standard deviations of the sampling distribution of the
+  #    sample mean around the sample mean?
+  #    Known: real mean, real standard deviation.
+  #    After central limit theorem the standard deviation of the sampling
+  #    distribution of the sample mean is equal to the standard error of the
+  #    population, thus we can use the real standard error.
+  #
+  # 3. What is the probability that the mean of a sample lies within the
+  #    interval of two standard deviations of the sampling distribution
+  #    of the sample mean around the population mean?
+  #    Known: real mean, real standard deviation.
+  #    Similar to 2., but we exchange the means, i.e. we change the perspective.
+  #
+  # There will be 1000 samples of size 100 evaluated. For each question
+  # the same sample are used to keep the results comparable.
+  #
+  # This method prints out the answers.
+
   sample.size = 100 # size of single sample
   nsamp = 1000      # no. of samples
 
@@ -8,48 +50,25 @@ get.statistics <- function(population) {
   prob3 = 0
 
   #----- code for calculating prob1, prob2 and prob3 -----#
-  real_std = sd(population)
-  real_mean = mean(population)
-  real_se = real_std/sqrt(sample.size)
 
-  hit = 0
+  real_mean <- mean(population)
+  real_se <- sd(population) / sqrt(sample.size)
+
+  hits <- rep(0, 3)
   for (i in 1:nsamp) {
-    samp = sample(population, sample.size)
-    sample_mean = mean(samp)
-    sample_std = sd(samp)
-    sample_se = sample_std/sqrt(sample.size)
+    samp <- sample(population, sample.size)
 
-    if(real_mean > sample_mean - 2*sample_se & real_mean < sample_mean + 2*sample_se){
-      hit = hit +1
-    }
-  }
-  prob1 = hit/nsamp
+    sample_mean <- mean(samp)
+    sample_se <- sd(samp) / sqrt(sample.size)
 
-  hit = 0
-  for (i in 1:nsamp) {
-    samp = sample(population, sample.size)
-    samp_mean = mean(samp)
-    # using now the population standard error instead of the standard deviation of the
-    # distribution of means according to CLT
-    if(real_mean < samp_mean + 2*real_se & real_mean > samp_mean - 2*real_se){
-      hit = hit + 1
-    }
+    hits <- hits + c(in_ci(real_mean, sample_mean, 2 * sample_se),
+                     in_ci(real_mean, sample_mean, 2 * real_se),
+                     in_ci(sample_mean, real_mean, 2 * real_se))
   }
 
-  prob2 = hit/nsamp
-
-  hit = 0
-  for (i in 1:nsamp) {
-    samp = sample(population, sample.size)
-    samp_mean = mean(samp)
-    samp_sd = sd(samp)
-    # using the same trick again
-    if(samp_mean < real_mean + 2*real_se & samp_mean > real_mean - 2*real_se){
-      hit = hit + 1
-    }
-  }
-
-  prob3 = hit/nsamp
+  prob1 <- hits[1] / nsamp
+  prob2 <- hits[2] / nsamp
+  prob3 <- hits[3] / nsamp
 
   #-------------------------------------------------------#
   print(paste("1. ", prob1))
