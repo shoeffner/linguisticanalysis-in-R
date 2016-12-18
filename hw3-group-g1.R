@@ -1,5 +1,5 @@
-
 # Homework 3 by Sebastian Höffner and Andrea Suckro
+
 data = read.table("refelxive1.txt", heade=T)
 data.match = subset(data, cond == "match")
 data.mismatch = subset(data, cond == "mismatch")
@@ -8,10 +8,6 @@ se <- function(x) sd(x)/sqrt(length(x))
 
 ##########################################################################################
 # HYPOTHESIS TESTING!
-
-#step4: obtain p-value
-#step5: decide!
-#step6: profit!
 
 #1) Hypothesis_null: mean of match condition comes from the same distribution as the mean of the non_match condition
 #2) Hypothesis_alt: mean of the match condition comes from another distribution
@@ -27,7 +23,7 @@ t = (match_mean-mismatch_mean)/standError
 print(t)
 p_val = pt(t,df=min(length(data.match$TFT), length(data.mismatch$TFT))-1)
 print(p_val)
-#5) decide upon the alpha level
+#5) decide upon the alpha level if the 0 hypothesis is obsolete
 if(p_val < alpha){
   print('rejecting the 0 hypothesis - sample is from another population!')
 }else{
