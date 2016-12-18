@@ -34,3 +34,9 @@ vignettes/*.pdf
 .Rproj.user
 sessions
 .DS_Store
+
+# Andrea's personal class code
+classCode/*
+
+# Data files
+*.txt
