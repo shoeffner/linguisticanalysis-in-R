@@ -41,7 +41,7 @@ print(paste("Is reaction time still affected by trials if considering native lan
 
 
 # 4. Subjects are affected differently depending on the number of trials.
-# 7 DOF, one-sided test: PR(-1.895 < t < 1.895) = .95
+# 7 DOF, one-sided test: Pr(|t| < 1.895) = .95
 # !! The model does not converge. As such the t-values can not be used for predictions,
 #    but if we could, this would be the results:
 # No (trials): |t| = 1.369 > 1.415
