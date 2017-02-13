@@ -15,7 +15,7 @@ ttest <- function (model, effect, df, alpha=0.05) {
 
 # 1. Are reaction times affected by the number of trials?
 # 2 DOF, two-sided test: Pr(|t| < 4.303) = .95
-# No: |t| = 2.435
+# No: |t| = 2.435 < 4.303
 
 model1 = lm(RT ~ Trial, lexdec)
 print(paste("Is reaction time affected by the number of trials only?", ttest(model1, 'Trial', 2)))
@@ -44,7 +44,7 @@ print(paste("Is reaction time still affected by trials if considering native lan
 # 7 DOF, two-sided test: Pr(|t| < 2.365) = .95
 # !! The model does not converge. As such the t-values can not be used for predictions,
 #    but if we could, this would be the results:
-# No (trials): |t| = 1.369 > 2.365
+# No (trials): |t| = 1.369 < 2.365
 # Yes (native language): |t| = 2.913 > 2.365
 
 model4 = lmer(RT ~ Trial + (1 + Trial|Subject) + (1|Word) + NativeLanguage, lexdec)
